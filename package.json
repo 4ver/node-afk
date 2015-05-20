@@ -1,10 +1,16 @@
 {
   "name": "afk",
-  "version": "0.4.8",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "version": "0.4.9",
   "description": "Provides seconds since the user was last active",
+  "main": "index.js",
+  "scripts": {
+    "global-deps": "npm i gulp",
+    "prepublish": "gulp compile"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/teamwork/node-afk"
+  },
   "keywords": [
     "user idle",
     "afk",
@@ -12,12 +18,25 @@
     "keyboard",
     "user inactive"
   ],
-  "author": "Donal Linehan <me@don.al>",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/Teamwork/node-afk.git"
+  "author": "Emmet Campion <Emmet@teamwork.com>",
+  "contributors": [
+    "Donal Linehan <me@don.al>"
+  ],
+  "bugs": {
+    "url": "https://github.com/teamwork/node-afk/issues"
   },
-  "dependencies": {},
-  "devDependencies": {},
-  "main": "index.js"
+  "homepage": "https://github.com/teamwork/node-afk",
+  "devDependencies": {
+    "chai": "^1.9.2",
+    "coffee-script": "^1.9.2",
+    "gulp": "^3.8.11",
+    "gulp-coffee": "^2.0.1",
+    "gulp-coffeelint": "^0.3.4",
+    "gulp-coffeelint-threshold": "^1.0.0",
+    "gulp-load-plugins": "^0.5.3",
+    "gulp-mocha": "^0.4.1",
+    "gulp-util": "^2.2.20",
+    "teamwork-coffeelint-rules": "^0.0.1"
+  },
+  "dependencies": {}
 }

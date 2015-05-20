@@ -1,5 +1,6 @@
 *.iml
 .idea
 
-test.js
+*.js
 src/build
+/node_modules
