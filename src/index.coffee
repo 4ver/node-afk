@@ -2,7 +2,7 @@ exec = require('child_process').exec
 os = require('os')
 path = require('path')
 
-class idle
+class Idle
 
     tick: (callback) ->
         callback ?= ->
@@ -79,4 +79,4 @@ class idle
         whenSeconds = shouldSeconds - isSeconds
         return if whenSeconds > 0 then whenSeconds else 0
 
-module.exports = new idle()
+module.exports = new Idle()
