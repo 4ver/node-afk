@@ -3,6 +3,10 @@ os = require('os')
 path = require('path')
 
 class Idle
+    listeners: null
+
+    constructor: ->
+        @listeners = []
 
     tick: (callback) ->
         callback ?= ->
@@ -36,14 +40,14 @@ class Idle
 
     addListener: (shouldSeconds, callback) =>
         isAfk = false
-        listenerId = listeners.push(true) - 1
+        listenerId = @listeners.push(true) - 1
         timeoutRef = null
-        checkIsAway =>
-            unless listeners[listenerId]
+        checkIsAway = =>
+            unless @listeners[listenerId]
                 clearTimeout(timeoutRef)
                 return
-            @tick (isSeconds) ->
-                whenSeconds = whenToCheck(isSeconds, shouldSeconds)
+            @tick (isSeconds) =>
+                whenSeconds = @whenToCheck(isSeconds, shouldSeconds)
                 s = 1000
 
                 if whenSeconds is 0 and not isAfk
@@ -71,8 +75,8 @@ class Idle
         checkIsAway()
         return listenerId
 
-    removeListener: (listenerId) ->
-        listeners[listenerId] = false
+    removeListener: (listenerId) =>
+        @listeners[listenerId] = false
         return true
 
     whenToCheck: (isSeconds, shouldSeconds) ->
