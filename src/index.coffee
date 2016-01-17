@@ -79,7 +79,7 @@ class Idle
             cmd = '"' + path.join(__dirname, 'bin', 'idle.exe') + '"'
             exec cmd, (error, stdout, stderr) ->
                 if error
-                    calback(0, error)
+                    callback(0, error)
                     return
                 callback Math.floor(parseInt(stdout, 10) / 1000), null
 
@@ -87,7 +87,7 @@ class Idle
             cmd = '/usr/sbin/ioreg -c IOHIDSystem | /usr/bin/awk \'/HIDIdleTime/ {print int($NF/1000000000); exit}\''
             exec cmd, (error, stdout, stderr) ->
                 if error
-                    calback(0, error)
+                    callback(0, error)
                     return
                 callback parseInt(stdout, 10), null
 
@@ -95,7 +95,7 @@ class Idle
             cmd = 'xprintidle'
             exec cmd, (error, stdout, stderr) ->
                 if error
-                    calback(0, error)
+                    callback(0, error)
                     return
                 callback Math.round(parseInt(stdout, 10) / 1000), null
 
