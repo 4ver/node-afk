@@ -2,6 +2,7 @@ var exec = require('child_process').exec;
 var execFile = require('child_process').execFile;
 var os = require('os');
 var path = require('path');
+require('hazardous');
 
 var listeners = [],
     idle = {};
