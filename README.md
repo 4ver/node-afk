@@ -1,24 +1,122 @@
-node-afk
-=========
+# node-afk
 
-Provides seconds since the user was last active
+A simple module to get how many seconds the user has been away for with **100% test coverage**. Also provides `away` and `back` status updates. Scroll down for API and Usage Example.
+
+### Note: Node AFK 1.0.0 requires Node >= 8 due to ES6 usage. Use 0.5.0 for Node < 8 ( 0.5.0 no longer supported)
+---
 
 ## Install
 ```
 npm install afk
 ```
 
-## Example
-```javascript
-var afk = require('afk');
+This package contains native modules that need to be built using node-gyp.
 
-var seconds = 10;
+On linux you will need to install `libxss-dev` and `pkg-config` to build this module.
 
-var listenerId = afk.addListener(seconds, function(e) {
-	console.log(e)
-	afk.removeListener(e.id);
-})
+---
+
+## General Usage Example
+```js
+const afk = require('afk');
+
+const secondsUntilAway = 10; // 10 seconds
+
+const watcherId = afk.addWatcher(secondsUntilAway, (error, result) {
+    if (error) {
+        console.error(error);
+    } else {
+        console.log(`User Status: ${result.status}`);
+        console.log(`Time since last activity: ${result.time}`);
+    }
+});
 ```
 
-## Notes
-Linux support requires xprintidle otherwise returns 0
+---
+
+## Public API
+
+### AFK.getAllWatchers()
+
+Returns an Object containing all registered afk status watchers.
+
+```js
+const afk = require('afk');
+
+const watchers = afk.getAllWatchers();
+
+console.log(watchers);
+/* Output
+{
+    1: StatusWatcher,
+    2: StatusWatcher,
+}
+*/
+```
+
+### AFK.addWatcher(secondsUntilAway, callback)
+
+- `secondsUntilAway` - Seconds without activity to classify a user as away
+
+- `callback(error, data)` - Function that will be called when the user status changed.
+
+    - `data` will be an `object` that contains the properties:
+
+        - `id` - The ID of the watcher
+        - `status` - The users status (`online`, `offline`, `away`)
+        - `time` - The number of seconds since the user was last active
+
+This function returns the ID of the watcher that was created.
+
+```js
+const afk = require('afk');
+
+const watcherId = afk.addWatcher(10, (error, result) => {
+    if (error) {
+        console.error(error);
+    } else {
+        console.log(`User Status: ${result.status}`);
+        console.log(`Time since last activity: ${result.time}`);
+    }
+});
+```
+
+### AFK.removeWatcher(watcherId)
+
+Unregisters and removes a registered watcher given its ID.
+
+Returns a boolean specifying if the watcher was successfully removed.
+
+```js
+const afk = require('afk');
+
+const watcherId = afk.addWatcher(...);
+
+...
+
+afk.removeWatcher(watcherId);
+```
+
+### AFK.removeAllWatchers()
+
+Unregisters and removes all registered watchers.
+
+```js
+const watcherOne = afk.addWatcher(...);
+const watcherTwo = afk.addWatcher(...);
+
+...
+
+afk.removeAllWatchers();
+```
+
+---
+
+# Contributing
+
+Contributions are always welcome. Make sure you write tests for anything you add or change. We also enforce AirBNB ESLint rules.
+
+---
+
+# License
+`MIT`
